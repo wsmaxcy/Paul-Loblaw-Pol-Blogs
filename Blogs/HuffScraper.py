@@ -67,10 +67,10 @@ def main():
 
 	# range of how many blogs get scraped. This numbe can change depending on 503 errors if a lot of activity
 	# happens over the network
-	for i in range(1,2):
+	for i in range(1,5):
 		page = i
 
-		numEntries = 500
+		numEntries = 100
 
 		url = 'https://www.huffpost.com/api/section/politics/cards?page='+str(page)+'&limit='+str(numEntries)
 
