@@ -172,9 +172,12 @@ def devisiveWords():
 
 def sentByDate():
 
+    dates = []
     for blog in range(len(blogs)):
-        print(blogs[blog][0][3])
+        print(dates.append(blogs[blog][0][3]))
     
+    print(dates)
+    dates = sorted(dates)
     return
 
 sentByDate()
