@@ -121,7 +121,7 @@ def sentScore(sentence):
 # Find sentences with biden/trump as NNP and rates their sentiment
 def wordSentScore(blog, comparedWord):
     
-    occurences = []
+    
     total = 0
     count = 0
 
@@ -169,6 +169,15 @@ def devisiveWords():
     devisive = (dict(sorted(devisive.items(), key=lambda item: item[1], reverse=True)))
     return devisive
 
+
+def sentByDate():
+
+    for blog in range(len(blogs)):
+        print(blogs[blog][0][3])
+    
+    return
+
+sentByDate()
 
 #print(devisiveWords())
 #for items in range(len(blogs)):

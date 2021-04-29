@@ -24,9 +24,7 @@ def scrape(url):
 	
 	# clean text for csv
 	textTitle = title.get_text()[:-19].replace(',','')
-	textDate = (date.get_text().split()[0]).replace('/','-')
-	if(textDate[1]=='-'):
-		textDate = '0'+textDate
+	textDate = (date['datetime'].split()[0])
 	textAuthor = author.find('a').get_text()
 	textBody = textTitle + ', '+ textAuthor + ", " + textDate + ", "
 
