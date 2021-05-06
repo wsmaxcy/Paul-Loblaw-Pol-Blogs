@@ -11,6 +11,7 @@ import numpy
 from nltk import word_tokenize
 from nltk import sent_tokenize
 import nltk
+import datetime
 
 
 # Loads blogs from /SavedBlogs/ folder and turns them into a list of lists
@@ -20,7 +21,7 @@ def loadBlogs():
     path, dirs, files = os.walk(sys.path[0]+'/Blogs/SavedBlogs/').__next__()
 
 
-    print(path)
+    print("Loading Blogs from SavedBlogs Folder")
     for file in files:
         file = path + file
 
@@ -39,15 +40,19 @@ blogs = loadBlogs()
 def loadAfinn():
 
     afinn = {}
+    print("Loading AFINN dictionary")
     for line in open(sys.path[0]+'/Data/AFINN-111.txt'):
         word, score = line.split('\t')
         afinn[word] = int(score)
         
     return(afinn)
 
+afinn = loadAfinn()
+
 # Seperates blogs into Liberal and Conservative lists
 def seperateBlogs(blogs):
 
+    print("Seperating conservative and liberal blogs")
     count = 0
     for x in range(len(blogs)):
         if(blogs[x][0][0]) == 'L':
@@ -55,7 +60,7 @@ def seperateBlogs(blogs):
             break
         else:
             count=count+1
-    return(count, blogs[:649], blogs[650:])
+    return(count, blogs[:count], blogs[count:])
 
 dividingNumber, cBlogs, lBlogs = seperateBlogs(blogs)
 # Finds lexical diversity of individual blog
@@ -66,9 +71,7 @@ def lexicalDiversity(blog):
 	
 	return lexDiv
 
-
 #Finds and outputs top trending PARTS OF SPEACH (POS) within headlines
-
 def listPOS(blog, POS):
     
     occurences = []
@@ -105,10 +108,8 @@ def listPOS(blog, POS):
 # WP	wh-pronoun	who, what   # WP$	possessive wh-pronoun	whose   # WRB	wh-abverb	where, when
 
 # use of listPOS
-common = listPOS(blogs, 'NNP')
+#common = listPOS(blogs, 'NNP')
 
-
-afinn = loadAfinn()
 # Worker class for finding sent score
 def sentScore(sentence):
     score = 0
@@ -143,15 +144,19 @@ def wordSentScore(blog, comparedWord):
         ans = 0
     return ans
 
+# Find words in either headlines or blog bodies that are devisive
+def devisiveWords(cb,lb):
 
-def devisiveWords():
+    b = cb + lb
+    common = listPOS(b, 'NNP')
+
     devisive = {}    
     for word in common.keys():
         big = 0
         lil = 0
         
-        cScore = wordSentScore(cBlogs, word)
-        lScore = wordSentScore(lBlogs, word)
+        cScore = wordSentScore(cb, word)
+        lScore = wordSentScore(lb, word)
         print('Con: ' + word + '    ' + str(cScore))
         print('Lib: ' + word + '    ' + str(lScore))
         if lScore > cScore:
@@ -170,17 +175,28 @@ def devisiveWords():
     return devisive
 
 
-def sentByDate():
+def sentByDate(date):
 
-    dates = []
+    cb = []
+    lb = []
+    count = 0
     for blog in range(len(blogs)):
-        print(dates.append(blogs[blog][0][3]))
+        if date == blogs[blog][0][3]:
+            if 'C' == blogs[blog][0][0]:
+                cb.append(blogs[blog])
+            else:
+                lb.append(blogs[blog])
+        
+        
+    print(devisiveWords(cb, lb))
     
-    print(dates)
-    dates = sorted(dates)
+    
     return
 
-sentByDate()
+sentByDate(' 2021-05-03')
+
+#print(devisiveWords(cBlogs,lBlogs))
+#sentByDate()
 
 #print(devisiveWords())
 #for items in range(len(blogs)):

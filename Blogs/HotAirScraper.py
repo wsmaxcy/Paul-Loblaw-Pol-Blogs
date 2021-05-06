@@ -60,7 +60,7 @@ def scrape(url):
 #main function, used to fine dynamic blog listing page
 def main():
 	
-	for i in range(5,10):
+	for i in range(1,10):
 		#start page, 50 entries per page
 		startPage = i
 		#number of blog posts on page request, 50 max
