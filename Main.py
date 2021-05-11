@@ -86,7 +86,7 @@ def listPOS(blog, POS):
     
     freq = dict((i, occurences.count(i)) for i in set(occurences))
 
-    freq = (dict(sorted(freq.items(), key=lambda item: item[1], reverse=True)[:40]))
+    freq = (dict(sorted(freq.items(), key=lambda item: item[1], reverse=True)[:20]))
     return freq
 
 #POS tag list:
@@ -193,7 +193,7 @@ def sentByDate(date):
     
     return
 
-sentByDate(' 2021-05-03')
+sentByDate(' 2021-05-06')
 
 #print(devisiveWords(cBlogs,lBlogs))
 #sentByDate()
