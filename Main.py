@@ -193,7 +193,7 @@ def sentByDate(date):
     
     return
 
-sentByDate(' 2021-05-06')
+#sentByDate(' 2021-05-06')
 
 #print(devisiveWords(cBlogs,lBlogs))
 #sentByDate()
