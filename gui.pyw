@@ -12,7 +12,7 @@ root.overrideredirect(True)
 # set new geometry
 root.geometry('300x125+200+200')
 # set background color of title bar
-back_ground = "#2c2c2c"
+back_ground = "#1b1b1b"
 
 # set background of window
 content_color = "#ffffff"
@@ -24,7 +24,7 @@ close_button = Button(title_bar, text='x',  command=root.destroy,bg=back_ground,
 
 # window title
 logo = PhotoImage(file='logo.png')
-windowback = PhotoImage(file='backgroundtest.png')
+windowback = PhotoImage(file='working2.png')
 title_window = "Paul Loblaw Pol Blog Logger"
 title_name = Label(title_bar, image=logo, text=title_window, bg=back_ground, fg="white")
 # a canvas for the main area of the window
@@ -32,10 +32,10 @@ window = Canvas(root, bg="#4B4B4B", highlightthickness=0)
 window.create_image(0,0,image=windowback,anchor=NW)
 
 
-scanBlogs = Button(window, text="Scan Blogs", command=lambda : os.system('Blogs\CrooksScraper.py & Blogs\DailyKosScraper.py'), bg='#737574', padx=10, pady=2, activebackground='#5FD3A2',bd=0, fg='white', activeforeground='white', highlightthickness=0)
-loadBlogs = Button(window, text="Scan Site", bg='#737574', padx=10, pady=2, activebackground='#5FD3A2',bd=0, fg='white', activeforeground='white', highlightthickness=0)
+scanBlogs = Button(window, text="Scan Blogs", command=lambda : os.system('Blogs\CrooksScraper.py & Blogs\DailyKosScraper.py'), bg='#393939', padx=10, pady=2, activebackground='#393939',bd=0, fg='white', activeforeground='white', highlightthickness=0)
+loadBlogs = Button(window, text="Scan Site", command=lambda : print("Scan Site!"),  bg='#393939', padx=10, pady=2, activebackground='#393939',bd=0, fg='white', activeforeground='white', highlightthickness=0)
 #scanSite = Button(window, text="Scan Site", bg=back_ground, padx=10, pady=2, activebackground='#5FD3A2',bd=0, fg='white', activeforeground='white', highlightthickness=0)
-label = Entry(window, bg='#9eb69c', bd=0, fg='#000000',selectborderwidth=5, width=200)
+label = Entry(window, bg='#525e54', bd=0, fg='#ffffff',selectborderwidth=5, width=200)
 
 
 # pack the widgets
@@ -73,31 +73,4 @@ title_bar.bind('<B1-Motion>', move_window)
 close_button.bind('<Enter>', change_on_hovering)
 close_button.bind('<Leave>', return_to_normal_state)
 
-# change on hovering for scan button
-def change_on_hovering_scan(event):
-    global scanBlogs
-    scanBlogs['bg'] = '#d67327'
-    
-
-def return_to_normal_state_scan(event):
-   global scanBlogs
-   scanBlogs['bg'] = '#737574'
-
-
-scanBlogs.bind('<Enter>', change_on_hovering_scan)
-scanBlogs.bind('<Leave>', return_to_normal_state_scan)
-
-# change on hovering for load button
-def change_on_hovering_scan(event):
-    global loadBlogs
-    loadBlogs['bg'] = '#d67327'
-    
-
-def return_to_normal_state_scan(event):
-   global loadBlogs
-   loadBlogs['bg'] = "#737574"
-
-
-loadBlogs.bind('<Enter>', change_on_hovering_scan)
-loadBlogs.bind('<Leave>', return_to_normal_state_scan)
 root.mainloop()
