@@ -6,35 +6,43 @@ import time
 from Blogs import GenericScraper
 
 
+compareableSite = []
 
 def URLScan(status):
 
     step = '[+] Scanning Website'
     status['text'] = "{}".format(step)
     root.update()
+    global compareableSite
     compareableSite = GenericScraper.main(label.get())
-    step = '[+] Website Scanned'
+    step = '[+] Scan Complete'
     status['text'] = "{}".format(step)
     root.update()
     
-    if(compareableSite[0]!=''):
+    #checks to see if website was scanned correctly
+    if(len(compareableSite)>0):
         time.sleep(1)
         step = '[+] Blog Title Found'
         status['text'] = "{}".format(step)
         root.update()
 
-    if(compareableSite[1]!=''):
         time.sleep(1)
         step = '[+] Blog Body Found'
         status['text'] = "{}".format(step)
         root.update()
     
-    time.sleep(1)
-    step = '[+] Blog: ' + compareableSite[0]+ ' ready for comparison'
-    status['text'] = "{}".format(step)
-    root.update()
+        time.sleep(1)
+        step = '[+] Blog: ' + compareableSite[0]+ ' ready for comparison'
+        status['text'] = "{}".format(step)
+        root.update()
+    else:
+        time.sleep(1)
+        step = '[-] Please enter correct URL'
+        status['text'] = "{}".format(step)
+        root.update()
+    
 
-    return
+    return compareableSite
 
 #action that balls blog scrapers. outputs which blog website is being scanned
 def blogScan(status):
@@ -80,6 +88,19 @@ def blogScan(status):
     root.update()
 
     return
+
+def affScan(status):
+    if len(compareableSite) < 1:
+        step = '[-] Scan URL of blog before finding affiliation'
+        status['text'] = "{}".format(step)
+        root.update()
+    else:
+        step = '[+] Feature still in production'
+        status['text'] = "{}".format(step)
+        root.update()
+    return
+
+
 root = Tk()
 root.option_add('*Font', 'TkTooltipFont')
 
@@ -103,17 +124,17 @@ close_button = Button(title_bar, text='x',  command=root.destroy,bg=back_ground,
 
 # window title
 logo = PhotoImage(file='logo.png')
-#windowback = PhotoImage(file='background.png')
+windowback = PhotoImage(file='background.png')
 title_window = "Paul Loblaw Pol Blog Logger"
 title_name = Label(title_bar, image=logo, text=title_window, bg=back_ground, fg="white")
 # a canvas for the main area of the window
 window = Canvas(root, bg="#4B4B4B", highlightthickness=0)
-#window.create_image(0,0,image=windowback,anchor=NW)
+window.create_image(0,0,image=windowback,anchor=NW)
 
 
 scanBlogs = Button(window, text="Scan Blogs", command=lambda : blogScan(status), bg='#393939', padx=10, pady=2, activebackground='#393939',bd=0, fg='white', activeforeground='white', highlightthickness=0)
 scanURL = Button(window, text="Scan URL", command=lambda : URLScan(status),  bg='#393939', padx=10, pady=2, activebackground='#393939',bd=0, fg='white', activeforeground='white', highlightthickness=0)
-compareBlog = Button(window, text="Find Affiliation", bg='#393939', padx=10, pady=2, activebackground='#393939',bd=0, fg='white', activeforeground='white', highlightthickness=0)
+compareBlog = Button(window, text="Find Affiliation", command=lambda : affScan(status), bg='#393939', padx=10, pady=2, activebackground='#393939',bd=0, fg='white', activeforeground='white', highlightthickness=0)
 
 #Entry Text stuff
 

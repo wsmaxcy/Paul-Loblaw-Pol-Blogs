@@ -11,9 +11,11 @@ import re
 import time
 
 def scrape(url):
-
-    
-	req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+	
+	try:
+		req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+	except ValueError:
+		return([])
 
 	webpage = urlopen(req).read()
 
