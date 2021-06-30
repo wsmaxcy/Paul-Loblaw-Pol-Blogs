@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup as s
 from urllib.request import Request, urlopen
 import sys
 import re
-import time
+
 
 def scrape(url):
 
@@ -53,12 +53,12 @@ def scrape(url):
 	file.write(textBody)
 	file.close()
 
-	return()
+	return("DailyKos: "+textTitle)
 
 def main():
 
 	# range deals with how many pages get scraped. this would be 10 pages of 50
-	for x in range(1,10):	
+	for x in range(1,2):	
 		url = 'https://www.dailykos.com/part/story/table/by_current?page='+str(x)
 		req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
 		webpage = urlopen(req).read()
@@ -73,7 +73,7 @@ def main():
 
 		for link in linkList:
 			scrape('https://www.dailykos.com'+link)
-			time.sleep(.5)
+			#time.sleep(.5)
 
 	
 			
