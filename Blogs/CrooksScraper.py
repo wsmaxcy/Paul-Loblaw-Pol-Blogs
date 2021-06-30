@@ -49,12 +49,12 @@ def scrape(url):
 	file.close()
 	
 
-	return()
+	return('CrooksAndLiars: '+textTitle)
 
 def main():
 
 	# range deals with how many blogs are scraped. change 
-	for x in range(0,80):
+	for x in range(0,3):
 		url = 'https://crooksandliars.com/politics?page=' + str(x)
 		req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
 		webpage = urlopen(req).read()

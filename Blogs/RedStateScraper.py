@@ -59,7 +59,7 @@ def scrape(url):
 def main():
 
 	# blog scraper
-	for x in range(1,10):
+	for x in range(1,3):
 		url = 'https://www.redstate.com/diaries-list/page/' + str(x) + '/'
 		req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
 		webpage = urlopen(req).read()

@@ -67,7 +67,7 @@ def main():
 
 	# range of how many blogs get scraped. This numbe can change depending on 503 errors if a lot of activity
 	# happens over the network
-	for i in range(0,5):
+	for i in range(0,1):
 		page = i
 
 		numEntries = 100

@@ -55,12 +55,12 @@ def scrape(url):
 	file.close()
 	
 
-	return()
+	return('HotAir: '+textTitle)
 
 #main function, used to fine dynamic blog listing page
 def main():
 	
-	for i in range(1,10):
+	for i in range(1,3):
 		#start page, 50 entries per page
 		startPage = i
 		#number of blog posts on page request, 50 max
