@@ -7,7 +7,7 @@ from Blogs import GenericScraper
 
 
 
-def siteScan(status):
+def URLScan(status):
 
     step = '[+] Scanning Website'
     status['text'] = "{}".format(step)
@@ -34,35 +34,47 @@ def siteScan(status):
     status['text'] = "{}".format(step)
     root.update()
 
-    print(compareableSite[0])
-    print(compareableSite[1])
     return
 
+#action that balls blog scrapers. outputs which blog website is being scanned
 def blogScan(status):
+    #Crooks and Liars Call
     step = '[+] Scanning Crooks and Liars'
     status['text'] = "{}".format(step)
     root.update()
     os.system('Blogs\CrooksScraper.py')
+
+    #Daily Kos call
     step = '[+] Scanning DailyKos'
     status['text'] = "{}".format(step)
     root.update()
     os.system('Blogs\DailyKosScraper.py')
+    
+    #Hot Air Call
     step = '[+] Scanning Hot Air'
     status['text'] = "{}".format(step)
     root.update()
     os.system('Blogs\HotAirScraper.py')
+    
+    #Huffington Post call
     step = '[+] Scanning Huffington Post'
     status['text'] = "{}".format(step)
     root.update()
     os.system('Blogs\HuffScraper.py')
+
+    #Power Line Call
     step = '[+] Scanning Power Line'
     status['text'] = "{}".format(step)
     root.update()
     os.system('Blogs\PowerLineScraper.py')
+    
+    #Red State Call
     step = '[+] Scanning Red State'
     status['text'] = "{}".format(step)
     root.update()
     os.system('Blogs\RedStateScraper.py')
+    
+    #Completion
     step = '[+] Complete'
     status['text'] = "{}".format(step)
     root.update()
@@ -91,17 +103,17 @@ close_button = Button(title_bar, text='x',  command=root.destroy,bg=back_ground,
 
 # window title
 logo = PhotoImage(file='logo.png')
-windowback = PhotoImage(file='background.png')
+#windowback = PhotoImage(file='background.png')
 title_window = "Paul Loblaw Pol Blog Logger"
 title_name = Label(title_bar, image=logo, text=title_window, bg=back_ground, fg="white")
 # a canvas for the main area of the window
 window = Canvas(root, bg="#4B4B4B", highlightthickness=0)
-window.create_image(0,0,image=windowback,anchor=NW)
+#window.create_image(0,0,image=windowback,anchor=NW)
 
 
 scanBlogs = Button(window, text="Scan Blogs", command=lambda : blogScan(status), bg='#393939', padx=10, pady=2, activebackground='#393939',bd=0, fg='white', activeforeground='white', highlightthickness=0)
-loadBlogs = Button(window, text="Scan Site", command=lambda : siteScan(status),  bg='#393939', padx=10, pady=2, activebackground='#393939',bd=0, fg='white', activeforeground='white', highlightthickness=0)
-#scanSite = Button(window, text="Scan Site", bg=back_ground, padx=10, pady=2, activebackground='#5FD3A2',bd=0, fg='white', activeforeground='white', highlightthickness=0)
+scanURL = Button(window, text="Scan URL", command=lambda : URLScan(status),  bg='#393939', padx=10, pady=2, activebackground='#393939',bd=0, fg='white', activeforeground='white', highlightthickness=0)
+compareBlog = Button(window, text="Find Affiliation", bg='#393939', padx=10, pady=2, activebackground='#393939',bd=0, fg='white', activeforeground='white', highlightthickness=0)
 
 #Entry Text stuff
 
@@ -125,8 +137,9 @@ close_button.pack(side=RIGHT)
 label.pack(side=BOTTOM, padx=40, pady=10)
 window.pack(expand=1, fill=BOTH)
 
-scanBlogs.pack(side=LEFT,padx=35,pady=15)
-loadBlogs.pack(side=RIGHT,padx=35,pady=15)
+scanURL.pack(side=BOTTOM)
+scanBlogs.pack(side=LEFT,padx=35,pady=0)
+compareBlog.pack(side=RIGHT,padx=35,pady=0)
 status.pack(side=LEFT, padx=0,pady=0)
 
 
