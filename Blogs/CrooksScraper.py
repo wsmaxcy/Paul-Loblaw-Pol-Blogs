@@ -68,6 +68,8 @@ def main():
 
 		for link in linkList:
 			scrape('https://crooksandliars.com/'+link)
+		
+		
 
 	return()
 main()

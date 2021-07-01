@@ -3,7 +3,9 @@ from tkinter import *
 import os
 import sys
 import time
+import subprocess
 from Blogs import GenericScraper
+
 
 
 compareableSite = []
@@ -46,44 +48,55 @@ def URLScan(status):
 
 #action that balls blog scrapers. outputs which blog website is being scanned
 def blogScan(status):
+
+    step = '[+] Scraping and saving data to ~/Blogs/SavedBlogs/'
+    status['text'] = "{}".format(step)
+    root.update()
+    time.sleep(3)
+
+    step = '[+] This will take a few minuets'
+    status['text'] = "{}".format(step)
+    root.update()
+    time.sleep(3)
+
     #Crooks and Liars Call
-    step = '[+] Scanning Crooks and Liars'
+    step = '[+] Scraping Crooks and Liars'
     status['text'] = "{}".format(step)
     root.update()
     os.system('Blogs\CrooksScraper.py')
 
     #Daily Kos call
-    step = '[+] Scanning DailyKos'
+    step = '[+] Scraping DailyKos'
     status['text'] = "{}".format(step)
     root.update()
     os.system('Blogs\DailyKosScraper.py')
     
     #Hot Air Call
-    step = '[+] Scanning Hot Air'
+    step = '[+] Scraping Hot Air'
     status['text'] = "{}".format(step)
     root.update()
     os.system('Blogs\HotAirScraper.py')
     
     #Huffington Post call
-    step = '[+] Scanning Huffington Post'
+    step = '[+] Scraping Huffington Post'
     status['text'] = "{}".format(step)
     root.update()
     os.system('Blogs\HuffScraper.py')
 
     #Power Line Call
-    step = '[+] Scanning Power Line'
+    step = '[+] Scraping Power Line'
     status['text'] = "{}".format(step)
     root.update()
     os.system('Blogs\PowerLineScraper.py')
     
     #Red State Call
-    step = '[+] Scanning Red State'
+    step = '[+] Scraping Red State'
     status['text'] = "{}".format(step)
     root.update()
     os.system('Blogs\RedStateScraper.py')
     
     #Completion
-    step = '[+] Complete'
+    step = '[+] Scraping Complete'
     status['text'] = "{}".format(step)
     root.update()
 
@@ -104,7 +117,7 @@ def affScan(status):
 root = Tk()
 root.option_add('*Font', 'TkTooltipFont')
 
-status = Label(root,text="[+] Scan Blog or URL to start",bg='#1b1b1b', fg='#ffffff', anchor='sw', width='300')
+status = Label(root,text="[+] Scrape Blog or URL to start",bg='#1b1b1b', fg='#ffffff', anchor='sw', width='300')
 
 
 # turns off title bar, geometry
@@ -132,8 +145,8 @@ window = Canvas(root, bg="#4B4B4B", highlightthickness=0)
 window.create_image(0,0,image=windowback,anchor=NW)
 
 
-scanBlogs = Button(window, text="Scan Blogs", command=lambda : blogScan(status), bg='#393939', padx=10, pady=2, activebackground='#393939',bd=0, fg='white', activeforeground='white', highlightthickness=0)
-scanURL = Button(window, text="Scan URL", command=lambda : URLScan(status),  bg='#393939', padx=10, pady=2, activebackground='#393939',bd=0, fg='white', activeforeground='white', highlightthickness=0)
+scrapeBlogs = Button(window, text="Scrape Blogs", command=lambda : blogScan(status), bg='#393939', padx=10, pady=2, activebackground='#393939',bd=0, fg='white', activeforeground='white', highlightthickness=0)
+scanURL = Button(window, text="Scrape URL", command=lambda : URLScan(status),  bg='#393939', padx=10, pady=2, activebackground='#393939',bd=0, fg='white', activeforeground='white', highlightthickness=0)
 compareBlog = Button(window, text="Find Affiliation", command=lambda : affScan(status), bg='#393939', padx=10, pady=2, activebackground='#393939',bd=0, fg='white', activeforeground='white', highlightthickness=0)
 
 #Entry Text stuff
@@ -159,8 +172,8 @@ label.pack(side=BOTTOM, padx=40, pady=10)
 window.pack(expand=1, fill=BOTH)
 
 scanURL.pack(side=BOTTOM)
-scanBlogs.pack(side=LEFT,padx=35,pady=0)
-compareBlog.pack(side=RIGHT,padx=35,pady=0)
+scrapeBlogs.pack(side=LEFT,padx=30,pady=5)
+compareBlog.pack(side=RIGHT,padx=30,pady=5)
 status.pack(side=LEFT, padx=0,pady=0)
 
 
