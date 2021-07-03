@@ -21,7 +21,7 @@ def loadBlogs():
     path, dirs, files = os.walk(sys.path[0]+'/Blogs/SavedBlogs/').__next__()
 
 
-    print("Loading Blogs from SavedBlogs Folder")
+    #print("Loading Blogs from SavedBlogs Folder")
     for file in files:
         file = path + file
 
@@ -34,25 +34,25 @@ def loadBlogs():
     
     return(blogs)
 
-blogs = loadBlogs()
+#blogs = loadBlogs()
 
 # Creates AFINN dictionary of words and sentiment scores
 def loadAfinn():
 
     afinn = {}
-    print("Loading AFINN dictionary")
+    #print("Loading AFINN dictionary")
     for line in open(sys.path[0]+'/Data/AFINN-111.txt'):
         word, score = line.split('\t')
         afinn[word] = int(score)
         
     return(afinn)
 
-afinn = loadAfinn()
+#afinn = loadAfinn()
 
 # Seperates blogs into Liberal and Conservative lists
 def seperateBlogs(blogs):
 
-    print("Seperating conservative and liberal blogs")
+    #print("Seperating conservative and liberal blogs")
     count = 0
     for x in range(len(blogs)):
         if(blogs[x][0][0]) == 'L':
@@ -62,7 +62,7 @@ def seperateBlogs(blogs):
             count=count+1
     return(count, blogs[:count], blogs[count:])
 
-dividingNumber, cBlogs, lBlogs = seperateBlogs(blogs)
+#dividingNumber, cBlogs, lBlogs = seperateBlogs(blogs)
 # Finds lexical diversity of individual blog
 def lexicalDiversity(blog):
 	
@@ -195,7 +195,7 @@ def sentByDate(date):
 
 #sentByDate(' 2021-05-06')
 
-print(devisiveWords(cBlogs,lBlogs))
+#print(devisiveWords(cBlogs,lBlogs))
 #sentByDate()
 
 #print(devisiveWords())
@@ -215,3 +215,47 @@ print(devisiveWords(cBlogs,lBlogs))
 
 #print(totalC/len(cBlogs))
 #print(totalL/len(lBlogs))
+def go(blog,status,root):
+
+    affiliation=''
+
+    step = '[+] Loading Blogs from SavedBlogs folder'
+    status['text'] = "{}".format(step)
+    root.update()
+    blogs = loadBlogs()
+    
+    step = '[+] Loading AFINN Dictionary'
+    status['text'] = "{}".format(step)
+    root.update()
+    afinn = loadAfinn()
+
+    step = '[+] Seperating Liberal and Conservative Blogs'
+    status['text'] = "{}".format(step)
+    root.update()
+    dividingNumber, cBlogs, lBlogs = seperateBlogs(blogs)
+
+    step = '[+] Finished'
+    status['text'] = "{}".format(step)
+    root.update()
+
+    step = blog[1]+''
+    status['text'] = "{}".format(step)
+    root.update()
+    return affiliation
+
+def go2(blog):
+
+    affiliation=''
+
+    
+    blogs = loadBlogs()
+    afinn = loadAfinn()
+    dividingNumber, cBlogs, lBlogs = seperateBlogs(blogs)
+
+
+    print(blog)
+
+
+    return affiliation
+
+#go2(['Trump is a big dummy','Everyone knows Trump is a big dummy, He is sucha a big dummy that idiots know this and he is even dumber than those idiots! Wow, it is truley a terrible thing to see such a crazy person.'])

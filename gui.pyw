@@ -1,10 +1,9 @@
 from tkinter import *
 #import Main.py
 import os
-import sys
 import time
-import subprocess
-from Blogs import GenericScraper
+import Main
+from Blogs import GenericScraper, ACrooksScraper, ADailyKosScraper, AHotAirScraper, AHuffScraper, APowerLineScraper, ARedStateScraper
 
 
 
@@ -52,48 +51,54 @@ def blogScan(status):
     step = '[+] Scraping and saving data to ~/Blogs/SavedBlogs/'
     status['text'] = "{}".format(step)
     root.update()
-    time.sleep(3)
+    time.sleep(1)
 
     step = '[+] This will take a few minuets'
     status['text'] = "{}".format(step)
     root.update()
-    time.sleep(3)
+    time.sleep(2)
 
     #Crooks and Liars Call
     step = '[+] Scraping Crooks and Liars'
     status['text'] = "{}".format(step)
     root.update()
-    os.system('Blogs\CrooksScraper.py')
+    time.sleep(1)
+    ACrooksScraper.main(status,root)
 
     #Daily Kos call
     step = '[+] Scraping DailyKos'
     status['text'] = "{}".format(step)
     root.update()
-    os.system('Blogs\DailyKosScraper.py')
+    time.sleep(1)
+    ADailyKosScraper.main(status,root)
     
     #Hot Air Call
     step = '[+] Scraping Hot Air'
     status['text'] = "{}".format(step)
     root.update()
-    os.system('Blogs\HotAirScraper.py')
+    time.sleep(1)
+    AHotAirScraper.main(status,root)
     
     #Huffington Post call
     step = '[+] Scraping Huffington Post'
     status['text'] = "{}".format(step)
     root.update()
-    os.system('Blogs\HuffScraper.py')
+    time.sleep(1)
+    AHuffScraper.main(status,root)
 
     #Power Line Call
     step = '[+] Scraping Power Line'
     status['text'] = "{}".format(step)
     root.update()
-    os.system('Blogs\PowerLineScraper.py')
+    time.sleep(1)
+    APowerLineScraper.main(status,root)
     
     #Red State Call
     step = '[+] Scraping Red State'
     status['text'] = "{}".format(step)
     root.update()
-    os.system('Blogs\RedStateScraper.py')
+    time.sleep(1)
+    ARedStateScraper.main(status,root)
     
     #Completion
     step = '[+] Scraping Complete'
@@ -108,9 +113,10 @@ def affScan(status):
         status['text'] = "{}".format(step)
         root.update()
     else:
-        step = '[+] Feature still in production'
+        step = '[+] Starting Process'
         status['text'] = "{}".format(step)
         root.update()
+        Main.go(compareableSite,status,root)
     return
 
 
@@ -136,8 +142,8 @@ title_bar = Frame(root, bg=back_ground, relief='raised', bd=0, highlightcolor=ba
 close_button = Button(title_bar, text='x',  command=root.destroy,bg=back_ground, padx=15, pady=0, activebackground="red", bd=0, fg='white', activeforeground="white", highlightthickness=0)
 
 # window title
-logo = PhotoImage(file='logo.png')
-windowback = PhotoImage(file='background.png')
+logo = PhotoImage(file='Data/logo.png')
+windowback = PhotoImage(file='Data/background.png')
 title_window = "Paul Loblaw Pol Blog Logger"
 title_name = Label(title_bar, image=logo, text=title_window, bg=back_ground, fg="white")
 # a canvas for the main area of the window
@@ -193,6 +199,7 @@ def change_on_hovering(event):
 def return_to_normal_state(event):
    global close_button
    close_button['bg'] = back_ground
+
 
 
 title_bar.bind('<B1-Motion>', move_window)
