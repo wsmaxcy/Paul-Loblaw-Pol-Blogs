@@ -76,7 +76,7 @@ def main(status, root):
 
 		for link in linkList:
 			scrape('https://www.dailykos.com'+link,status,root)
-			time.sleep(.3)
+			time.sleep(.5)
 
 	
 			

@@ -17,6 +17,8 @@ def URLScan(status):
     global compareableSite
     compareableSite = GenericScraper.main(label.get())
     step = '[+] Scan Complete'
+    windowback = PhotoImage(file='Data/background2.png')
+    window.create_image(0,0,image=windowback,anchor=NW)
     status['text'] = "{}".format(step)
     root.update()
     
@@ -34,8 +36,11 @@ def URLScan(status):
     
         time.sleep(1)
         step = '[+] Blog: ' + compareableSite[0]+ ' ready for comparison'
+        
         status['text'] = "{}".format(step)
         root.update()
+
+        
     else:
         time.sleep(1)
         step = '[-] Please enter correct URL'
