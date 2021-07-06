@@ -10,15 +10,15 @@ from Blogs import GenericScraper, ACrooksScraper, ADailyKosScraper, AHotAirScrap
 compareableSite = []
 
 def URLScan(status):
-
+    windowback = PhotoImage(file='Data/backgroundGreen.png')
+    window.create_image(0,0,image=windowback,anchor=NW)
+    root.update()
     step = '[+] Scanning Website'
     status['text'] = "{}".format(step)
     root.update()
     global compareableSite
     compareableSite = GenericScraper.main(label.get())
     step = '[+] Scan Complete'
-    windowback = PhotoImage(file='Data/background2.png')
-    window.create_image(0,0,image=windowback,anchor=NW)
     status['text'] = "{}".format(step)
     root.update()
     
@@ -42,17 +42,22 @@ def URLScan(status):
 
         
     else:
+        windowback = PhotoImage(file='Data/backgroundRed.png')
+        window.create_image(0,0,image=windowback,anchor=NW)
+        root.update()
         time.sleep(1)
         step = '[-] Please enter correct URL'
         status['text'] = "{}".format(step)
         root.update()
-    
+        time.sleep(1)
 
     return compareableSite
 
 #action that balls blog scrapers. outputs which blog website is being scanned
 def blogScan(status):
 
+    windowback = PhotoImage(file='Data/backgroundGreen.png')
+    window.create_image(0,0,image=windowback,anchor=NW)
     step = '[+] Scraping and saving data to ~/Blogs/SavedBlogs/'
     status['text'] = "{}".format(step)
     root.update()
@@ -114,9 +119,13 @@ def blogScan(status):
 
 def affScan(status):
     if len(compareableSite) < 1:
+        windowback = PhotoImage(file='Data/backgroundRed.png')
+        window.create_image(0,0,image=windowback,anchor=NW)
+        root.update()
         step = '[-] Scan URL of blog before finding affiliation'
         status['text'] = "{}".format(step)
         root.update()
+        time.sleep(1)
     else:
         step = '[+] Starting Process'
         status['text'] = "{}".format(step)
@@ -148,7 +157,7 @@ close_button = Button(title_bar, text='x',  command=root.destroy,bg=back_ground,
 
 # window title
 logo = PhotoImage(file='Data/logo.png')
-windowback = PhotoImage(file='Data/background.png')
+windowback = PhotoImage(file='Data/backgroundOff.png')
 title_window = "Paul Loblaw Pol Blog Logger"
 title_name = Label(title_bar, image=logo, text=title_window, bg=back_ground, fg="white")
 # a canvas for the main area of the window
