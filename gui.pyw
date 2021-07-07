@@ -42,7 +42,7 @@ def URLScan(status):
 
         
     else:
-        windowback = PhotoImage(file='Data/backgroundRed.png')
+        windowback = PhotoImage(file='Data/backgroundYellow.png')
         window.create_image(0,0,image=windowback,anchor=NW)
         root.update()
         time.sleep(1)
@@ -119,7 +119,7 @@ def blogScan(status):
 
 def affScan(status):
     if len(compareableSite) < 1:
-        windowback = PhotoImage(file='Data/backgroundRed.png')
+        windowback = PhotoImage(file='Data/backgroundYellow.png')
         window.create_image(0,0,image=windowback,anchor=NW)
         root.update()
         step = '[-] Scan URL of blog before finding affiliation'
@@ -131,6 +131,20 @@ def affScan(status):
         status['text'] = "{}".format(step)
         root.update()
         Main.go(compareableSite,status,root)
+
+        windowback = PhotoImage(file='Data/backgroundBlue.png')
+        window.create_image(0,0,image=windowback,anchor=NW)
+        step = '[+] Blog is predicted to be Liberal'
+        status['text'] = "{}".format(step)
+        root.update()
+        time.sleep(2)
+
+        windowback = PhotoImage(file='Data/backgroundRed.png')
+        window.create_image(0,0,image=windowback,anchor=NW)
+        step = '[+] Blog is predicted to be Conservative'
+        status['text'] = "{}".format(step)
+        root.update()
+        time.sleep(2)
     return
 
 
