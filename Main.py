@@ -12,6 +12,7 @@ from nltk import tokenize, word_tokenize
 from nltk import sent_tokenize
 from nltk.tokenize.treebank import TreebankWordDetokenizer
 import nltk
+import time
 
 
 afinn={}
@@ -260,6 +261,10 @@ def go(blog,status,root):
 
     print('blogs sepearted, finding devisive words')
     step = '[+] Blogs sepearted, finding devisive words, this might take a while'
+    status['text'] = "{}".format(step)
+    root.update()
+    time.sleep(2)
+    step = '[+] This might take a while'
     status['text'] = "{}".format(step)
     root.update()
     devisive,devisiveL,devisiveC = devisiveWords(cBlogs,lBlogs)
