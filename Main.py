@@ -8,12 +8,13 @@ import os, os.path
 import sys
 import csv
 import numpy
-from nltk import word_tokenize
+from nltk import tokenize, word_tokenize
 from nltk import sent_tokenize
+from nltk.tokenize.treebank import TreebankWordDetokenizer
 import nltk
-import datetime
 
 
+afinn={}
 # Loads blogs from /SavedBlogs/ folder and turns them into a list of lists
 def loadBlogs():
 
@@ -30,7 +31,20 @@ def loadBlogs():
             reader=csv.reader(f, delimiter=',')
             data = list(reader)
 
+            # Cleaning and lowercasing all blog titles and bodies
+            tokens = word_tokenize(data[0][1])
+            tokens = [token.lower() for token in tokens]
+            tokens = [word for word in tokens if word.isalnum()]
+            data[0][1] = (TreebankWordDetokenizer().detokenize(tokens))
+            tokens = word_tokenize(data[0][4])
+            tokens = [token.lower() for token in tokens]
+            tokens = [word for word in tokens if word.isalnum()]
+            data[0][4] = (TreebankWordDetokenizer().detokenize(tokens))
+            
+
         blogs.append(data)
+    
+    
     
     return(blogs)
 
@@ -67,6 +81,7 @@ def seperateBlogs(blogs):
 def lexicalDiversity(blog):
 	
 	sentences = word_tokenize(blog)
+    
 	lexDiv = len(set(sentences)) / len(sentences)
 	
 	return lexDiv
@@ -77,7 +92,8 @@ def listPOS(blog, POS):
     occurences = []
 
     for titles in range(len(blog)):
-        tokens = word_tokenize(blog[titles][0][1])
+        tokens = word_tokenize(blog[titles][0][4])
+        
         #print(tokens)
         #print(nltk.pos_tag(tokens))
         for word in nltk.pos_tag(tokens):
@@ -85,8 +101,7 @@ def listPOS(blog, POS):
                 occurences.append(word[0])
     
     freq = dict((i, occurences.count(i)) for i in set(occurences))
-
-    freq = (dict(sorted(freq.items(), key=lambda item: item[1], reverse=True)[:20]))
+    freq = (dict(sorted(freq.items(), key=lambda item: item[1], reverse=True)[:30]))
     return freq
 
 #POS tag list:
@@ -115,6 +130,7 @@ def sentScore(sentence):
     score = 0
     for word in sentence:
         if afinn.get(word) != None:
+            #print(sentence)
             score = score + afinn.get(word)
 
     return(score)
@@ -128,7 +144,7 @@ def wordSentScore(blog, comparedWord):
 
     for titles in range(len(blog)):
         tokens = sent_tokenize(blog[titles][0][4])
-        #print(blog[titles][0][1])
+        #print(tokens)
         for sentence in tokens:
             word_tokens = word_tokenize(sentence)
             for word in word_tokens:
@@ -148,17 +164,19 @@ def wordSentScore(blog, comparedWord):
 def devisiveWords(cb,lb):
 
     b = cb + lb
-    common = listPOS(b, 'NNP')
+    common = listPOS(b, 'NN')
 
-    devisive = {}    
+    devisive = {}
+    devisiveL = {}
+    devisiveC = {}    
     for word in common.keys():
         big = 0
         lil = 0
         
         cScore = wordSentScore(cb, word)
         lScore = wordSentScore(lb, word)
-        print('Con: ' + word + '    ' + str(cScore))
-        print('Lib: ' + word + '    ' + str(lScore))
+        #print(word + ': Lib: ' + str(lScore)+' | Con: '+ str(cScore))
+        
         if lScore > cScore:
             big = lScore
             lil = cScore
@@ -167,15 +185,19 @@ def devisiveWords(cb,lb):
             lil = lScore
 
         diff = abs(big-lil)
-        print("Difference:  " + str(diff))
+        #print("Difference:  " + str(diff))
 
         devisive[word] = diff
+        devisiveL[word] = lScore
+        devisiveC[word] = cScore
 
     devisive = (dict(sorted(devisive.items(), key=lambda item: item[1], reverse=True)))
-    return devisive
+    devisiveL = (dict(sorted(devisiveL.items(), key=lambda item: item[1], reverse=True)))
+    devisiveC = (dict(sorted(devisiveC.items(), key=lambda item: item[1], reverse=True)))
+    return devisive,devisiveL,devisiveC
 
 
-def sentByDate(date):
+def sentByDate(date,blogs):
 
     cb = []
     lb = []
@@ -215,9 +237,10 @@ def sentByDate(date):
 
 #print(totalC/len(cBlogs))
 #print(totalL/len(lBlogs))
+
 def go(blog,status,root):
 
-    affiliation=''
+    affiliation=2
 
     step = '[+] Loading Blogs from SavedBlogs folder'
     status['text'] = "{}".format(step)
@@ -227,6 +250,7 @@ def go(blog,status,root):
     step = '[+] Loading AFINN Dictionary'
     status['text'] = "{}".format(step)
     root.update()
+    global afinn 
     afinn = loadAfinn()
 
     step = '[+] Seperating Liberal and Conservative Blogs'
@@ -234,28 +258,42 @@ def go(blog,status,root):
     root.update()
     dividingNumber, cBlogs, lBlogs = seperateBlogs(blogs)
 
-    step = '[+] Finished'
+    print('blogs sepearted, finding devisive words')
+    step = '[+] Blogs sepearted, finding devisive words, this might take a while'
     status['text'] = "{}".format(step)
     root.update()
+    devisive,devisiveL,devisiveC = devisiveWords(cBlogs,lBlogs)
 
-    step = blog[1]+''
-    status['text'] = "{}".format(step)
-    root.update()
-    return affiliation
 
-def go2(blog):
-
-    affiliation=''
-
+    tokens = sent_tokenize(blog[1])
+    tokens = [token.lower() for token in tokens]
     
-    blogs = loadBlogs()
-    afinn = loadAfinn()
-    dividingNumber, cBlogs, lBlogs = seperateBlogs(blogs)
+    con=0
+    lib=0
+    for sentence in tokens:
+        word_tokens = word_tokenize(sentence)
+        word_tokens = [word for word in word_tokens if word.isalnum()]
+        for word in word_tokens:
+            if word in devisive:
+                if (abs(sentScore(word_tokens) - devisiveL[word])) < abs((sentScore(word_tokens)-devisiveC[word])):
+                    #print(word + ': L: '+ str(lib) + ' | C: ' + str(con))
+                    con = con + 1
+                    step = '[+] ' + word + ': L: '+ str(lib) + ' | C: ' + str(con)
+                    status['text'] = "{}".format(step)
+                    root.update()
+                else:
+                    #print('L: '+ str(lib) + ' | C: ' + str(con))
+                    lib = lib + 1
+                    step = '[+] ' + word + ': L: '+ str(lib) + ' | C: ' + str(con)
+                    status['text'] = "{}".format(step)
+                    root.update()
+                #print(str(sentScore(word_tokens)) + ' ' + word + ' ' + str(devisiveC[word]) + ' ' + str(devisiveL[word]))
 
-
-    print(blog)
-
-
+    if con > lib:
+        affiliation = 1
+    elif lib > con:
+        affiliation = 0
+    else:
+        affiliation = 2
     return affiliation
 
-#go2(['Trump is a big dummy','Everyone knows Trump is a big dummy, He is sucha a big dummy that idiots know this and he is even dumber than those idiots! Wow, it is truley a terrible thing to see such a crazy person.'])
