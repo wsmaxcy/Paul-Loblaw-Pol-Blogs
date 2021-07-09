@@ -73,6 +73,7 @@ minutes (Yes, this is a long time. I'm working on it [haha]). Once the blog
 political affiliation can be predicted, the ticker will print out the 
 prediction and the "LED" will light up blue or red based on political 
 affiliation.
+
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
