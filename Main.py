@@ -102,7 +102,7 @@ def listPOS(blog, POS):
                 occurences.append(word[0])
     
     freq = dict((i, occurences.count(i)) for i in set(occurences))
-    freq = (dict(sorted(freq.items(), key=lambda item: item[1], reverse=True)[:30]))
+    freq = (dict(sorted(freq.items(), key=lambda item: item[1], reverse=True)[:15]))
     return freq
 
 #POS tag list:
